@@ -38,8 +38,12 @@ That table already tells the honest story of trend following: it gives up some u
 
    ```bash
    cp .env.example .env
-   # edit .env: ALPACA_API_KEY and ALPACA_SECRET_KEY
+   open -e .env      # macOS: opens in TextEdit. Or use any editor, e.g. nano .env
    ```
+
+   Replace `your_paper_key_id` and `your_paper_secret_key` with your keys (no quotes or spaces), then save.
+   In `nano`, save with **Control+O** then Enter, and exit with **Control+X** (Control, not Command).
+   Check it worked: `grep -c "your_paper" .env` should print `0`.
 
 4. Backtest on real daily bars (free IEX feed):
 
@@ -125,7 +129,7 @@ The tests run without `alpaca-py` or any network access. The `run` command is ex
 
 ## Developer experience notes
 
-What I noticed while building on the Trading API is in [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md). This is the product manager part of the project.
+**Under 2 minutes from dashboard to a placed paper order.** What I noticed while building on the Trading API, and what I'd ship first as its PM, is in [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md).
 
 ## Related
 
