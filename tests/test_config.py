@@ -5,7 +5,7 @@ from bot.config import ConfigError, Settings, load_settings
 
 @pytest.fixture(autouse=True)
 def clean_env(monkeypatch, tmp_path):
-    for name in ["ALPACA_API_KEY", "ALPACA_SECRET_KEY", "ALPACA_PAPER", "SYMBOLS", "FAST_WINDOW", "SLOW_WINDOW"]:
+    for name in ["ALPACA_API_KEY", "ALPACA_SECRET_KEY", "ALPACA_API_SECRET", "ALPACA_PAPER", "SYMBOLS", "FAST_WINDOW", "SLOW_WINDOW"]:
         monkeypatch.delenv(name, raising=False)
     monkeypatch.chdir(tmp_path)  # make sure no real .env is picked up
 
@@ -46,3 +46,17 @@ def test_non_numeric_window_is_explained(monkeypatch):
     monkeypatch.setenv("FAST_WINDOW", "ten")
     with pytest.raises(ConfigError, match="whole number"):
         load_settings()
+
+
+def test_api_secret_alias_is_accepted(monkeypatch):
+    monkeypatch.setenv("ALPACA_API_KEY", "PKTEST")
+    monkeypatch.setenv("ALPACA_API_SECRET", "alias-secret")
+    s = load_settings()
+    assert s.secret_key == "alias-secret"
+    s.validate(need_keys=True)
+
+
+def test_secret_key_wins_over_alias(monkeypatch):
+    monkeypatch.setenv("ALPACA_SECRET_KEY", "primary")
+    monkeypatch.setenv("ALPACA_API_SECRET", "alias")
+    assert load_settings().secret_key == "primary"

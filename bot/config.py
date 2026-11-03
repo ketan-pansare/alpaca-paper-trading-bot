@@ -81,7 +81,8 @@ def load_settings() -> Settings:
     symbols = [s.strip().upper() for s in os.getenv("SYMBOLS", "SPY,QQQ,AAPL").split(",") if s.strip()]
     return Settings(
         api_key=os.getenv("ALPACA_API_KEY", ""),
-        secret_key=os.getenv("ALPACA_SECRET_KEY", ""),
+        # ALPACA_SECRET_KEY is the name alpaca-py and Alpaca's docs use; ALPACA_API_SECRET is accepted too.
+        secret_key=os.getenv("ALPACA_SECRET_KEY") or os.getenv("ALPACA_API_SECRET", ""),
         symbols=symbols,
         fast_window=_int("FAST_WINDOW", 20),
         slow_window=_int("SLOW_WINDOW", 50),

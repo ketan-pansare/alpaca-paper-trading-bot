@@ -106,7 +106,7 @@ paper-trading-bot/
 │   └── journal.py       # CSV decision log
 ├── data/sample_prices.csv   # synthetic prices for offline demo
 ├── scripts/make_sample_data.py
-├── tests/               # 29 tests, no network or account needed
+├── tests/               # 31 tests, no network or account needed
 ├── .env.example
 └── requirements.txt
 ```
